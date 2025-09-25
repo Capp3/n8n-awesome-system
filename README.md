@@ -2,9 +2,24 @@
 
 A comprehensive n8n-based workflow system for managing the [Awesome Production](https://github.com/Capp3/awesome-production) list with automated data entry, categorization, and health monitoring.
 
-## Overview
+## Purpose & Relationship
 
-This project automates the management of a curated list of manufacturers, vendors, standards organizations, and useful resources for live events, concert touring, theatre, and broadcast. The system uses n8n workflows to handle data entry, LLM-powered categorization, and automated health monitoring.
+This repository serves as the **data management backend** for the [Awesome Production](https://github.com/Capp3/awesome-production) repository. The Awesome Production list is a curated collection of manufacturers, vendors, standards organizations, and useful resources for live events, concert touring, theatre, and broadcast.
+
+**Key Points:**
+- This system automates the maintenance and updates of the Awesome Production list
+- All changes are synchronized with the main [awesome-production](https://github.com/Capp3/awesome-production) repository
+- The system ensures data quality, prevents duplicates, and maintains URL health
+- Updates to the Awesome Production list should be made through this system, not directly in the main repo
+
+## What This System Does
+
+This project provides a complete automation solution for managing the Awesome Production list, including:
+
+- **Data Entry Automation**: Process new vendor submissions through web forms
+- **Quality Assurance**: Automated categorization using LLM and duplicate detection
+- **Health Monitoring**: Regular checks to ensure all vendor URLs remain active
+- **Repository Management**: Automatic updates and pull requests to the main repository
 
 ## System Architecture
 
@@ -16,7 +31,7 @@ The system consists of three main workflows:
 
 ## Database Schema
 
-The system uses NocoDB/PostgreSQL to store vendor information with the following structure:
+The system uses NocoDB as the database interface with PostgreSQL as the backend to store vendor information. The database structure includes:
 
 - `id` (Primary Key)
 - `vendor_name` (Text)
@@ -45,6 +60,7 @@ The system uses NocoDB/PostgreSQL to store vendor information with the following
 - **GitHub Integration**: Creates pull requests for all changes, allowing human review
 - **Markdown Generation**: Automatically rebuilds the entire README from database
 - **Error Handling**: Comprehensive error handling for API failures and data issues
+- **Repository Sync**: Keeps the main [awesome-production](https://github.com/Capp3/awesome-production) repository updated with all changes
 
 ## Technical Stack
 
@@ -56,25 +72,46 @@ The system uses NocoDB/PostgreSQL to store vendor information with the following
 
 ## Prerequisites
 
-- n8n instance (self-hosted or cloud)
-- PostgreSQL database (or NocoDB)
-- GitHub repository access
-- LLM API access (OpenAI, Anthropic, etc.)
+Before setting up this system, you'll need:
+
+- **n8n instance** (self-hosted or cloud) - The workflow automation platform
+- **NocoDB** - Database interface and management (NocoDB setup and configuration is not covered in this documentation)
+- **PostgreSQL database** - Backend storage (can be managed through NocoDB)
+- **GitHub repository access** - For creating pull requests to the main awesome-production repo
+- **LLM API access** - OpenAI, Anthropic, or similar for automated categorization
+
+> **Note**: This documentation assumes you already have NocoDB installed and configured. NocoDB setup, configuration, and administration are outside the scope of this project documentation.
 
 ## Getting Started
 
-1. Set up your database with the defined schema
-2. Configure n8n with required credentials
-3. Run the one-time import workflow to populate initial data
-4. Deploy the new entry workflow for form submissions
-5. Schedule the health check workflow for monthly monitoring
+### Quick Setup Guide
+
+1. **Database Setup**: Create the database schema in your NocoDB instance (see [Database Schema](database/schema.md))
+2. **n8n Configuration**: Import workflows and configure API credentials for GitHub and LLM services
+3. **Initial Data Load**: Run the [One-Time Import Workflow](workflows/01-import-workflow.md) to populate existing data
+4. **Deploy Entry System**: Set up the [New Entry Workflow](workflows/02-new-entry-workflow.md) for processing submissions
+5. **Schedule Monitoring**: Configure the [Health Check Workflow](workflows/03-health-check-workflow.md) to run monthly
+
+### Important Setup Notes
+
+- Ensure your NocoDB instance is properly connected to PostgreSQL
+- Configure all required API keys and credentials in n8n
+- Test each workflow individually before deploying to production
+- Verify GitHub permissions for creating pull requests to the awesome-production repository
 
 ## Resources
 
+### n8n Resources
 - [n8n Documentation](https://n8n.io/docs/)
 - [n8n Node Reference](https://github.com/n8n-io/n8n/tree/master/packages/nodes-base)
 - [n8n Integrations](https://n8n.io/integrations/)
 - [Context7 n8n Resources](https://context7.com/?q=n8n)
+
+### NocoDB Resources
+- [NocoDB Documentation](https://docs.nocodb.com/)
+- [NocoDB GitHub](https://github.com/nocodb/nocodb)
+
+> **Note**: For NocoDB setup and configuration help, please refer to the official NocoDB documentation.
 
 ## Project Structure
 
@@ -92,8 +129,22 @@ awesome/
 
 ## Contributing
 
-This is an internal project for managing the Awesome Production list. For questions or issues, please refer to the individual workflow documentation or contact the project maintainer.
+This is the data management system for the [Awesome Production](https://github.com/Capp3/awesome-production) list. 
+
+**For Awesome List Updates:**
+- All updates to the Awesome Production list should be made through this system
+- Use the new entry workflow for adding vendors
+- The system will automatically create pull requests to the main repository
+- Do not make direct changes to the main awesome-production repository
+
+**For System Development:**
+- This repository contains the n8n workflows and database management system
+- For questions or issues with the data management system, please refer to the individual workflow documentation or contact the project maintainer
 
 ## License
 
 This project is part of the Awesome Production list management system.
+
+### GPT-3 License
+
+This project uses GPT-3 for automated categorization of vendor entries. The use of GPT-3 is subject to OpenAI's Terms of Service and API usage policies. Please ensure you have appropriate OpenAI API access and are compliant with their usage terms when using this system.

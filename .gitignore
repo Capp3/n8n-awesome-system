@@ -120,10 +120,10 @@ venv.bak/
 
 # Traditional IDEs
 # PyCharm / IntelliJ
-#.idea/
+.idea/
 
 # Visual Studio Code
-#.vscode/
+.vscode/
 
 # Spyder
 .spyderproject

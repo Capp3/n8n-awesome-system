@@ -1,0 +1,235 @@
+{
+  "name": "AwesomeVacum",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "vendor_name",
+              "cssSelector": "ul li a",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {
+          "trimValues": true,
+          "cleanUpText": true
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1328,
+        0
+      ],
+      "id": "d600dafa-d14f-4062-abe1-ffff5acc9caf",
+      "name": "HTML1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cc3da5dd-b106-4e58-b176-d35393de7517",
+      "name": "Hoover"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "Capp3",
+          "mode": "list",
+          "cachedResultName": "Capp3",
+          "cachedResultUrl": "https://github.com/Capp3"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "awesome-production",
+          "mode": "list",
+          "cachedResultName": "awesome-production",
+          "cachedResultUrl": "https://github.com/Capp3/awesome-production"
+        },
+        "filePath": "readme.md",
+        "additionalParameters": {}
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "beede221-3c11-409e-af0d-be0cb1644747",
+      "name": "Get Awesome List",
+      "webhookId": "60e7e467-c996-420e-b301-38544ea934f5",
+      "credentials": {
+        "githubApi": {
+          "id": "5EpFBZdEObP25ySQ",
+          "name": "GitHub Capp3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        448,
+        0
+      ],
+      "id": "bda25d3e-3270-4343-8d85-c948ec2a1e1a",
+      "name": "Extract Markdown"
+    },
+    {
+      "parameters": {
+        "mode": "markdownToHtml",
+        "markdown": "={{ $json.data }}",
+        "destinationKey": "content",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "337eba7a-6e08-42d4-b200-ebcb5df22a33",
+      "name": "Convert to HTML"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "content",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "=main_categories",
+              "cssSelector": "h3",
+              "returnArray": true
+            },
+            {
+              "key": "sub_categories",
+              "cssSelector": "h4",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {
+          "trimValues": true,
+          "cleanUpText": true
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        896,
+        0
+      ],
+      "id": "c431c1cd-41bf-4a35-bb14-6a2ca8d092cc",
+      "name": "Extract Headings"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build hierarchical category structure\nconst mainCategories = $input.first().json.main_categories || [];\nconst subCategories = $input.first().json.sub_categories || [];\n\n// Parse the original HTML to understand the structure\nconst htmlContent = $('Convert to HTML').first().json.content;\nconst lines = htmlContent.split('\\n');\n\nconst categoryMap = {};\nlet currentMainCategory = null;\n\nfor (const line of lines) {\n  // Check for main category (h3)\n  const h3Match = line.match(/<h3[^>]*>(.*?)<\\/h3>/);\n  if (h3Match) {\n    currentMainCategory = h3Match[1].replace(/<[^>]*>/g, '').trim();\n    categoryMap[currentMainCategory] = [];\n  }\n\n  // Check for subcategory (h4) and associate with current main category\n  const h4Match = line.match(/<h4[^>]*>(.*?)<\\/h4>/);\n  if (h4Match && currentMainCategory) {\n    const subCategory = h4Match[1].replace(/<[^>]*>/g, '').trim();\n    categoryMap[currentMainCategory].push(subCategory);\n  }\n}\n\n// Convert to array format for easier processing\nconst categoryHierarchy = Object.entries(categoryMap).map(([main, subs]) => ({\n  main_category: main,\n  sub_categories: subs\n}));\n\nreturn categoryHierarchy.map(item => ({ json: item }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "dd6b97d5-4a4e-4c96-a04c-3164ce7ab047",
+      "name": "Create Heading Relationships"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Hoover": {
+      "main": [
+        [
+          {
+            "node": "Get Awesome List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Awesome List": {
+      "main": [
+        [
+          {
+            "node": "Extract Markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Markdown": {
+      "main": [
+        [
+          {
+            "node": "Convert to HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to HTML": {
+      "main": [
+        [
+          {
+            "node": "Extract Headings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Headings": {
+      "main": [
+        [
+          {
+            "node": "Create Heading Relationships",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Heading Relationships": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9679cccc-6598-48fe-a253-3b173a88488a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1c23fdf105aaacd4635cc3179c8ec8a79b1339d581cd2a8e15367d996124a9e3"
+  },
+  "id": "qsd8PMJ94trsDwc6",
+  "tags": []
+}
