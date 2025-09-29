@@ -29,14 +29,23 @@ CREATE INDEX IF NOT EXISTS idx_vendors_last_checked ON vendors(last_checked) WHE
 CREATE UNIQUE INDEX IF NOT EXISTS idx_vendors_name_url ON vendors(vendor_name, url);
 
 -- Create constraints
-ALTER TABLE vendors ADD CONSTRAINT IF NOT EXISTS chk_status
-CHECK (status IN ('active', 'inactive', 'pending_review'));
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_status') THEN
+        ALTER TABLE vendors ADD CONSTRAINT chk_status
+        CHECK (status IN ('active', 'inactive', 'pending_review'));
+    END IF;
 
-ALTER TABLE vendors ADD CONSTRAINT IF NOT EXISTS chk_created_by
-CHECK (created_by IN ('form', 'import', 'manual'));
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_created_by') THEN
+        ALTER TABLE vendors ADD CONSTRAINT chk_created_by
+        CHECK (created_by IN ('form', 'import', 'manual'));
+    END IF;
 
-ALTER TABLE vendors ADD CONSTRAINT IF NOT EXISTS chk_url_format
-CHECK (url ~ '^https?://[^\s]+$');
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'chk_url_format') THEN
+        ALTER TABLE vendors ADD CONSTRAINT chk_url_format
+        CHECK (url ~ '^https?://[^\s]+$');
+    END IF;
+END $$;
 
 -- Create triggers for automatic timestamp updates
 CREATE OR REPLACE FUNCTION update_updated_at_column()
@@ -47,7 +56,8 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
-CREATE TRIGGER IF NOT EXISTS update_vendors_updated_at
+DROP TRIGGER IF EXISTS update_vendors_updated_at ON vendors;
+CREATE TRIGGER update_vendors_updated_at
 BEFORE UPDATE ON vendors
 FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
@@ -61,7 +71,8 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
-CREATE TRIGGER IF NOT EXISTS track_vendors_status_change
+DROP TRIGGER IF EXISTS track_vendors_status_change ON vendors;
+CREATE TRIGGER track_vendors_status_change
 BEFORE UPDATE ON vendors
 FOR EACH ROW EXECUTE FUNCTION track_status_change();
 
