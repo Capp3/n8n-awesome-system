@@ -28,8 +28,10 @@ nav:
       - Overview: projectbrief.md
       - System Requirements: techContext.md
       - Installation Guide: installation.md
+      - Version Compatibility: version-compatibility.md
       - Deployment Guide: deployment.md
   - Architecture:
+      - System Architecture: system-architecture.md
       - System Patterns: systemPatterns.md
       - Product Context: productContext.md
       - Implementation Plan: implementationPlan.md
@@ -45,6 +47,8 @@ nav:
       - Active Context: activeContext.md
       - Progress Tracking: progress.md
       - Task Management: tasks.md
+      - Documentation Review: documentation-review-checklist.md
+      - Implementation Summary: IMPLEMENTATION_SUMMARY.md
   - Optimization Journey:
       - Introduction: 00-introduction.md
       - Efficiency and Clarity: 01-efficiency-and-clarity.md

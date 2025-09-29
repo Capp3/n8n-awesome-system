@@ -4,13 +4,13 @@
 
 ### Core Platform
 
-- **n8n**: Self-hosted workflow automation platform (version 1.112.4)
+- **n8n**: Self-hosted workflow automation platform (version 1.113.3)
 - **Node.js**: Runtime environment for n8n
 - **PostgreSQL**: Primary database backend
 
 ### Database Layer
 
-- **NocoDB**: Database interface and management
+- **NocoDB**: Database interface and management (version 0.264.9)
 - **PostgreSQL**: Relational database for data storage
 - **Schema**: Normalized structure for vendor data
 
@@ -34,15 +34,16 @@
 
 - **Node.js**: Version 18+ (n8n requirement)
 - **PostgreSQL**: Version 12+ (NocoDB requirement)
-- **n8n**: Version 1.112.4 (self-hosted)
+- **n8n**: Version 1.113.3 (self-hosted)
+- **NocoDB**: Version 0.264.9 (self-hosted)
 - **Docker**: Optional for containerized deployment
 
-## n8n 1.112.4 Implementation Requirements
+## n8n 1.113.3 Implementation Requirements
 
 ### Node Usage Guidelines
 
 - **Purpose-Built Nodes**: Always use n8n's purpose-built nodes
-- **AI Agent Node**: Use for all LLM operations (not OpenAI/Anthropic nodes) - Available in n8n 1.112.4
+- **AI Agent Node**: Use for all LLM operations (not OpenAI/Anthropic nodes) - Available in n8n 1.113.3
 - **Avoid Code Blocks**: Minimize use of Function/Code nodes
 - **Context7 Validation**: All implementations must be validated with Context7
 

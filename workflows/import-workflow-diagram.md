@@ -74,6 +74,7 @@
 ## 🎯 Node Connection Flow
 
 ### Main Flow
+
 1. **GitHub** → **Markdown** → **HTML (Categories)**
 2. **HTML (Categories)** → **Split (Category)** → **HTML (Subcategories)**
 3. **HTML (Subcategories)** → **Split (Subcategory)** → **HTML (Vendors)**
@@ -81,6 +82,7 @@
 5. **PostgreSQL (Insert)** → **PostgreSQL (Verify)** → **Set (Report)**
 
 ### Data Flow Context
+
 ```
 Category Context: Split Category → HTML Subcategories → Split Subcategory
 Subcategory Context: Split Subcategory → HTML Vendors → Set Structure
@@ -89,23 +91,24 @@ Vendor Context: Set Structure → PostgreSQL Insert
 
 ## 🔧 Node Configuration Summary
 
-| Node | Purpose | Key Settings | Expected Output |
-|------|---------|--------------|-----------------|
-| GitHub | Get File | Repository: Capp3/awesome-production | Raw markdown |
-| Markdown | Convert HTML | Include TOC: No | HTML content |
-| HTML (Cat) | Extract H3 | Selector: h3, Return: text[] | Category array |
-| Split (Cat) | Process Each | Batch Size: 1 | Individual categories |
-| HTML (Sub) | Extract H4 | Selector: h4, Return: text[] | Subcategory array |
-| Split (Sub) | Process Each | Batch Size: 1 | Individual subcategories |
-| HTML (Vend) | Extract UL | Selector: ul li a | Vendor arrays |
-| Set | Structure | Map to DB schema | Structured records |
-| PostgreSQL | Insert | Batch Size: 50 | Insert results |
-| PostgreSQL | Verify | COUNT(*) query | Import count |
-| Set | Report | Summary data | Final report |
+| Node        | Purpose      | Key Settings                         | Expected Output          |
+| ----------- | ------------ | ------------------------------------ | ------------------------ |
+| GitHub      | Get File     | Repository: Capp3/awesome-production | Raw markdown             |
+| Markdown    | Convert HTML | Include TOC: No                      | HTML content             |
+| HTML (Cat)  | Extract H3   | Selector: h3, Return: text[]         | Category array           |
+| Split (Cat) | Process Each | Batch Size: 1                        | Individual categories    |
+| HTML (Sub)  | Extract H4   | Selector: h4, Return: text[]         | Subcategory array        |
+| Split (Sub) | Process Each | Batch Size: 1                        | Individual subcategories |
+| HTML (Vend) | Extract UL   | Selector: ul li a                    | Vendor arrays            |
+| Set         | Structure    | Map to DB schema                     | Structured records       |
+| PostgreSQL  | Insert       | Batch Size: 50                       | Insert results           |
+| PostgreSQL  | Verify       | COUNT(\*) query                      | Import count             |
+| Set         | Report       | Summary data                         | Final report             |
 
 ## 🧪 Testing Points
 
 ### Individual Node Testing
+
 - [ ] GitHub node returns valid markdown
 - [ ] Markdown node converts to valid HTML
 - [ ] HTML nodes extract correct data
@@ -114,6 +117,7 @@ Vendor Context: Set Structure → PostgreSQL Insert
 - [ ] PostgreSQL nodes connect and insert
 
 ### Integration Testing
+
 - [ ] Category extraction works
 - [ ] Subcategory association works
 - [ ] Vendor extraction works
@@ -122,6 +126,7 @@ Vendor Context: Set Structure → PostgreSQL Insert
 - [ ] Report generation works
 
 ### Full Workflow Testing
+
 - [ ] Complete workflow runs without errors
 - [ ] All vendors imported correctly
 - [ ] Category associations preserved
@@ -131,24 +136,29 @@ Vendor Context: Set Structure → PostgreSQL Insert
 ## 🚨 Common Issues & Solutions
 
 ### Issue: HTML Extraction Returns Empty
+
 **Solution**: Check CSS selectors match actual HTML structure
 **Debug**: Test selectors with sample HTML content
 
 ### Issue: Split Nodes Not Iterating
+
 **Solution**: Verify batch size is set to 1
 **Debug**: Check input data format and array structure
 
 ### Issue: Database Insertion Fails
+
 **Solution**: Verify table schema and column names
 **Debug**: Test database connection and permissions
 
 ### Issue: Data Structure Mismatch
+
 **Solution**: Check Set node assignments and expressions
 **Debug**: Verify input data format at each node
 
 ## 📊 Expected Data Flow
 
 ### Input Data
+
 ```json
 {
   "content": "<h3>Audio</h3><h4>Mixing Consoles</h4><ul><li><a href='...'>Vendor</a> – Description</li></ul>"
@@ -156,6 +166,7 @@ Vendor Context: Set Structure → PostgreSQL Insert
 ```
 
 ### Category Extraction
+
 ```json
 {
   "main_category": ["Audio", "Video", "Lighting & Rigging"]
@@ -163,6 +174,7 @@ Vendor Context: Set Structure → PostgreSQL Insert
 ```
 
 ### Subcategory Extraction
+
 ```json
 {
   "subcategory": ["Mixing Consoles", "Microphones & IEMs"]
@@ -170,15 +182,20 @@ Vendor Context: Set Structure → PostgreSQL Insert
 ```
 
 ### Vendor Extraction
+
 ```json
 {
   "vendor_name": ["Allen & Heath", "Avid"],
   "vendor_url": ["https://www.allen-heath.com/", "https://www.avid.com/"],
-  "vendor_description": ["Mixers and control surfaces", "Pro Tools and VENUE systems"]
+  "vendor_description": [
+    "Mixers and control surfaces",
+    "Pro Tools and VENUE systems"
+  ]
 }
 ```
 
 ### Final Database Record
+
 ```json
 {
   "vendor_name": "Allen & Heath",
@@ -192,4 +209,4 @@ Vendor Context: Set Structure → PostgreSQL Insert
 }
 ```
 
-This visual guide should help you implement the workflow step by step in n8n 1.112.4.
+This visual guide should help you implement the workflow step by step in n8n 1.113.3.

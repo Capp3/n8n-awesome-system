@@ -12,8 +12,8 @@
 
 ### Software Dependencies
 
-- **Node.js**: Version 18+ (required for n8n 1.112.4)
-- **PostgreSQL**: Version 12+ (required for NocoDB)
+- **Node.js**: Version 18+ (required for n8n 1.113.3)
+- **PostgreSQL**: Version 12+ (required for NocoDB 0.264.9)
 - **Docker**: Optional for containerized deployment
 - **Git**: For repository management
 
@@ -56,11 +56,11 @@ GRANT ALL PRIVILEGES ON DATABASE awesome_production TO n8n_user;
 \q
 ```
 
-### 3. Install n8n 1.112.4
+### 3. Install n8n 1.113.3
 
 ```bash
 # Install n8n globally
-sudo npm install -g n8n@1.112.4
+sudo npm install -g n8n@1.113.3
 
 # Create n8n directory
 sudo mkdir -p /opt/n8n
@@ -81,16 +81,16 @@ export DB_POSTGRESDB_PASSWORD=your_secure_password
 n8n start
 ```
 
-### 4. Install NocoDB
+### 4. Install NocoDB 0.264.9
 
 ```bash
-# Install NocoDB via Docker
+# Install NocoDB 0.264.9 via Docker
 docker run -d \
   --name nocodb \
   -p 8080:8080 \
   -e NC_DB="postgresql://n8n_user:your_secure_password@localhost:5432/awesome_production" \
   -e NC_AUTH_JWT_SECRET="your_jwt_secret" \
-  nocodb/nocodb:latest
+  nocodb/nocodb:0.264.9
 ```
 
 ### 5. Verify Installation

@@ -7,6 +7,7 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 ## Requirements Analysis
 
 ### Core Requirements (FOCUSED - NO FEATURE CREEP)
+
 - [x] **Automated Data Entry**: Process new vendor submissions via web form
 - [x] **Quality Assurance**: Automated categorization using LLM and duplicate detection
 - [x] **Health Monitoring**: Regular checks to ensure all vendor URLs remain active
@@ -14,8 +15,10 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 - [x] **Database Management**: Centralized data storage with NocoDB/PostgreSQL
 - [x] **GitHub Integration**: Seamless PR creation and management
 
-### Technical Constraints (UPDATED FOR n8n 1.112.4)
-- [x] **n8n Platform**: Self-hosted n8n version 1.112.4 for workflow automation
+### Technical Constraints (UPDATED FOR n8n 1.113.3 and NocoDB 0.264.9)
+
+- [x] **n8n Platform**: Self-hosted n8n version 1.113.3 for workflow automation
+- [x] **NocoDB Platform**: Self-hosted NocoDB version 0.264.9 for database interface
 - [x] **Database**: PostgreSQL with NocoDB interface
 - [x] **External APIs**: GitHub API, LLM APIs (OpenAI/Anthropic)
 - [x] **Linux Environment**: Development on Linux 6.14.0-29-generic
@@ -25,6 +28,7 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 - [x] **AI Integration**: Use AI Agent node, not specific provider nodes
 
 ### Performance Requirements
+
 - [x] **Processing Time**: < 5 minutes from submission to PR creation
 - [x] **Accuracy**: > 95% correct categorization
 - [x] **Uptime**: 99.9% system availability
@@ -33,12 +37,15 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 ## SCOPE DEFINITION - NO FEATURE CREEP
 
 ### ✅ IN SCOPE (Core Features Only)
+
 1. **Three Workflows Only**:
+
    - Import Workflow (one-time data migration)
    - New Entry Workflow (form submission processing)
    - Health Check Workflow (URL monitoring)
 
 2. **Essential Integrations**:
+
    - PostgreSQL database with NocoDB interface
    - GitHub API for PR creation
    - AI Agent node for categorization
@@ -50,7 +57,9 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
    - No complex dashboards or admin panels
 
 ### ❌ OUT OF SCOPE (Feature Creep Prevention)
+
 1. **Advanced Features**:
+
    - User authentication system
    - Advanced analytics dashboard
    - Email notifications
@@ -58,6 +67,7 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
    - Multi-language support
 
 2. **Complex Integrations**:
+
    - Slack/Discord notifications
    - Advanced monitoring systems
    - Custom admin interfaces
@@ -74,6 +84,7 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 ### Affected Components
 
 #### 1. Database Layer
+
 - **Changes needed**:
   - PostgreSQL database setup and configuration
   - NocoDB installation and configuration
@@ -82,6 +93,7 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 - **Dependencies**: PostgreSQL server, NocoDB installation
 
 #### 2. n8n Workflow Platform
+
 - **Changes needed**:
   - n8n instance setup and configuration
   - Workflow import and configuration
@@ -90,6 +102,7 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 - **Dependencies**: Node.js, n8n installation, API access
 
 #### 3. GitHub Integration
+
 - **Changes needed**:
   - GitHub API credential setup
   - Repository access configuration
@@ -97,6 +110,7 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 - **Dependencies**: GitHub repository access, API tokens
 
 #### 4. LLM Integration
+
 - **Changes needed**:
   - OpenAI/Anthropic API setup
   - Prompt engineering and testing
@@ -104,15 +118,17 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 - **Dependencies**: LLM API access, API keys
 
 #### 5. Web Interface
+
 - **Changes needed**:
   - Form creation and hosting
   - Webhook endpoint setup
   - User interface design
 - **Dependencies**: Web server, form hosting
 
-## Design Decisions (n8n 1.112.4 Best Practices)
+## Design Decisions (n8n 1.113.3 and NocoDB 0.264.9 Best Practices)
 
 ### Architecture Design
+
 - [x] **Workflow-Based Architecture**: Event-driven automation using n8n 1.112.4
 - [x] **Database-First Design**: Centralized data management with PostgreSQL/NocoDB
 - [x] **API Integration Pattern**: RESTful API consumption for external services
@@ -121,23 +137,27 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 - [x] **AI Agent Integration**: Use AI Agent node instead of specific provider nodes
 
 ### UI/UX Design (FOCUSED - NO FEATURE CREEP)
+
 - [x] **Simple Form Interface**: Minimal, user-friendly vendor submission form
 - [x] **Clear Feedback**: Immediate response to form submissions
 - [x] **Status Tracking**: Basic indication of submission status
 - [x] **Error Handling**: User-friendly error messages
 - [x] **No Complex Dashboards**: Keep interface simple and focused
 
-### Algorithm Design (n8n 1.112.4 Compatible)
+### Algorithm Design (n8n 1.113.3 and NocoDB 0.264.9 Compatible)
+
 - [x] **AI Agent Categorization**: Use AI Agent node for category assignment
 - [x] **Database Duplicate Detection**: Use PostgreSQL queries for duplicate checking
 - [x] **HTTP Request Health Monitoring**: Use HTTP Request node for URL checking
 - [x] **Markdown Generation**: Use Function node with purpose-built operations
 - [x] **Context7 Code Reviews**: All n8n implementations reviewed with Context7
 
-## n8n 1.112.4 Implementation Guidelines
+## n8n 1.113.3 and NocoDB 0.264.9 Implementation Guidelines
 
 ### ✅ REQUIRED PRACTICES
+
 1. **Purpose-Built Nodes Only**:
+
    - Use GitHub node for repository operations
    - Use PostgreSQL node for database operations
    - Use AI Agent node for LLM categorization
@@ -146,12 +166,14 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
    - Use Schedule node for health check automation
 
 2. **Avoid Code Blocks**:
+
    - Use Function node only when absolutely necessary
    - Prefer built-in node operations over custom code
    - Use Set node for data transformation
    - Use Switch node for conditional logic
 
 3. **AI Agent Node Usage**:
+
    - Configure AI Agent node for categorization
    - Use structured prompts for consistent output
    - Implement proper error handling for AI responses
@@ -164,12 +186,15 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
    - Ensure optimal node configuration
 
 ### ❌ AVOID THESE PATTERNS
+
 1. **Code Block Overuse**:
+
    - Don't use Code nodes for simple data transformation
    - Don't write custom JavaScript when nodes exist
    - Don't implement complex logic in code blocks
 
 2. **Provider-Specific AI Nodes**:
+
    - Don't use OpenAI node directly
    - Don't use Anthropic node directly
    - Always use AI Agent node for LLM operations
@@ -182,18 +207,23 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 ## Implementation Strategy
 
 ### Phase 1: Environment Setup (Week 1) - FOCUSED SCOPE
+
 - [ ] **Database Setup**
+
   - [ ] Install and configure PostgreSQL
   - [ ] Install and configure NocoDB
   - [ ] Create database schema (vendors table only)
   - [ ] Set up essential indexes and constraints
   - [ ] Test database connectivity
 
-- [ ] **n8n 1.112.4 Platform Setup**
-  - [ ] Install n8n version 1.112.4 (self-hosted)
+- [ ] **n8n 1.113.3 Platform Setup**
+
+  - [ ] Install n8n version 1.113.3 (self-hosted)
   - [ ] Configure n8n settings for production use
   - [ ] Set up credential management
   - [ ] Test n8n functionality with Context7 validation
+  - [ ] Install NocoDB version 0.264.9 (self-hosted)
+  - [ ] Configure NocoDB connection to PostgreSQL
 
 - [ ] **Essential API Access Setup**
   - [ ] Configure GitHub API access (read/write permissions)
@@ -202,19 +232,23 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
   - [ ] Configure basic rate limiting
 
 ### Phase 2: Core Implementation (Week 2-3) - FOCUSED SCOPE
+
 - [x] **CREATIVE PHASE: Import Workflow Architecture** - Design iterative processing approach
+
   - **Status**: Complete
   - **Decision**: Iterative Category-Based Processing
   - **Architecture**: GitHub → Markdown → HTML → Split → HTML → Split → HTML → Set → PostgreSQL
   - **Benefits**: Accuracy over speed, future-proofing, purpose-built nodes only
 
 - [ ] **Database Implementation (Essential Only)**
+
   - [ ] Implement vendors table schema
   - [ ] Create essential indexes for performance
   - [ ] Set up NocoDB interface for data management
   - [ ] Test basic database operations
 
 - [ ] **Three Workflows Development (Purpose-Built Nodes Only)**
+
   - [ ] Import Workflow: Iterative processing with GitHub, Markdown, HTML, Split, Set, PostgreSQL nodes
   - [ ] New Entry Workflow: Use Webhook, AI Agent, PostgreSQL, GitHub nodes
   - [ ] Health Check Workflow: Use Schedule, HTTP Request, PostgreSQL, GitHub nodes
@@ -227,7 +261,9 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
   - [ ] Validate basic data flow
 
 ### Phase 3: User Interface (Week 4) - SIMPLE & FOCUSED
+
 - [ ] **Basic Form Development (No Complex UI)**
+
   - [ ] Create simple HTML vendor submission form
   - [ ] Implement basic form validation
   - [ ] Set up webhook endpoints in n8n
@@ -240,7 +276,9 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
   - [ ] Test complete user journey
 
 ### Phase 4: Testing and Optimization (Week 5)
+
 - [ ] **Comprehensive Testing**
+
   - [ ] Unit testing of individual components
   - [ ] Integration testing of workflows
   - [ ] End-to-end testing of complete system
@@ -253,7 +291,9 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
   - [ ] Create maintenance procedures
 
 ### Phase 5: Deployment and Monitoring (Week 6)
+
 - [ ] **Production Deployment**
+
   - [ ] Deploy to production environment
   - [ ] Configure monitoring and alerting
   - [ ] Set up backup procedures
@@ -268,7 +308,9 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 ## Testing Strategy
 
 ### Unit Tests
+
 - [ ] **Database Tests**
+
   - [ ] Test database schema creation
   - [ ] Test data insertion and retrieval
   - [ ] Test constraint validation
@@ -281,7 +323,9 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
   - [ ] Test error handling
 
 ### Integration Tests
+
 - [ ] **Workflow Tests**
+
   - [ ] Test Import Workflow end-to-end
   - [ ] Test New Entry Workflow end-to-end
   - [ ] Test Health Check Workflow end-to-end
@@ -294,7 +338,9 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
   - [ ] Test security measures
 
 ### User Acceptance Tests
+
 - [ ] **Form Submission Tests**
+
   - [ ] Test form validation
   - [ ] Test submission processing
   - [ ] Test user feedback
@@ -309,7 +355,9 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 ## Documentation Plan
 
 ### Technical Documentation
+
 - [ ] **API Documentation**
+
   - [ ] Document all API endpoints
   - [ ] Document request/response formats
   - [ ] Document error codes and handling
@@ -322,7 +370,9 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
   - [ ] Document maintenance procedures
 
 ### User Documentation
+
 - [ ] **User Guide**
+
   - [ ] Form submission instructions
   - [ ] Status tracking guide
   - [ ] Troubleshooting guide
@@ -335,7 +385,9 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
   - [ ] Backup and recovery
 
 ### Development Documentation
+
 - [ ] **Architecture Documentation**
+
   - [ ] System architecture overview
   - [ ] Component relationships
   - [ ] Data flow diagrams
@@ -350,6 +402,7 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 ## Risk Assessment and Mitigation
 
 ### Technical Risks
+
 - **Risk**: Database performance issues
   - **Mitigation**: Proper indexing, query optimization, monitoring
 - **Risk**: API rate limiting
@@ -358,6 +411,7 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
   - **Mitigation**: Comprehensive error handling, retry logic, monitoring
 
 ### Operational Risks
+
 - **Risk**: System downtime
   - **Mitigation**: Redundancy, monitoring, quick recovery procedures
 - **Risk**: Data loss
@@ -366,6 +420,7 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
   - **Mitigation**: Security best practices, access controls, monitoring
 
 ### Business Risks
+
 - **Risk**: User adoption issues
   - **Mitigation**: User-friendly interface, clear documentation, training
 - **Risk**: Maintenance overhead
@@ -374,12 +429,14 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 ## Success Metrics
 
 ### Technical Metrics
+
 - **System Uptime**: > 99.9%
 - **Processing Time**: < 5 minutes per submission
 - **Error Rate**: < 1% of submissions
 - **API Response Time**: < 2 seconds
 
 ### Business Metrics
+
 - **User Satisfaction**: > 90% positive feedback
 - **Submission Volume**: Track daily/weekly submissions
 - **Processing Accuracy**: > 95% correct categorization
@@ -388,12 +445,14 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 ## Resource Requirements
 
 ### Hardware Requirements
+
 - **CPU**: 4+ cores for n8n and database
 - **RAM**: 8GB+ for optimal performance
 - **Storage**: 50GB+ for database and logs
 - **Network**: Stable internet for API calls
 
 ### Software Requirements
+
 - **Operating System**: Linux (Ubuntu 20.04+)
 - **Database**: PostgreSQL 12+
 - **Runtime**: Node.js 18+
@@ -401,6 +460,7 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 - **Interface**: NocoDB latest
 
 ### Human Resources
+
 - **Developer**: 1 full-time developer
 - **Database Administrator**: 0.5 FTE
 - **DevOps Engineer**: 0.5 FTE
@@ -409,33 +469,40 @@ This document outlines the comprehensive implementation plan for the Awesome Pro
 ## Timeline and Milestones
 
 ### Week 1: Environment Setup
+
 - **Milestone**: All infrastructure components operational
 - **Deliverables**: Database, n8n, API access configured
 
 ### Week 2-3: Core Implementation
+
 - **Milestone**: All workflows functional
 - **Deliverables**: Working Import, New Entry, and Health Check workflows
 
 ### Week 4: User Interface
+
 - **Milestone**: User interface complete
 - **Deliverables**: Working form, webhook endpoints, user feedback
 
 ### Week 5: Testing and Optimization
+
 - **Milestone**: System tested and optimized
 - **Deliverables**: Tested system, documentation, procedures
 
 ### Week 6: Deployment and Go-Live
+
 - **Milestone**: System live and operational
 - **Deliverables**: Production system, monitoring, support procedures
 
 ## Next Steps
 
 1. **Immediate Actions**:
+
    - Review and approve this implementation plan
    - Set up development environment
    - Begin Phase 1 implementation
 
 2. **Creative Phase Required**:
+
    - Architecture design decisions
    - UI/UX design for form interface
    - Algorithm optimization for categorization
