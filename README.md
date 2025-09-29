@@ -7,6 +7,7 @@ A comprehensive n8n-based workflow system for managing the [Awesome Production](
 This repository serves as the **data management backend** for the [Awesome Production](https://github.com/Capp3/awesome-production) repository. The Awesome Production list is a curated collection of manufacturers, vendors, standards organizations, and useful resources for live events, concert touring, theatre, and broadcast.
 
 **Key Points:**
+
 - This system automates the maintenance and updates of the Awesome Production list
 - All changes are synchronized with the main [awesome-production](https://github.com/Capp3/awesome-production) repository
 - The system ensures data quality, prevents duplicates, and maintains URL health
@@ -45,12 +46,18 @@ The system uses NocoDB as the database interface with PostgreSQL as the backend 
 - `last_checked` (DateTime)
 - `created_by` (Text) - "form", "import", "manual"
 
-## Workflow Documentation
+## Documentation
+
+📚 **Complete Documentation**: [View Full Documentation](https://capp3.github.io/n8n-awesome-system/)
+
+The documentation includes:
 
 - [One-Time Import Workflow](workflows/01-import-workflow.md) - Initial data population
 - [New Entry Workflow](workflows/02-new-entry-workflow.md) - Processing new submissions
 - [Health Check Workflow](workflows/03-health-check-workflow.md) - URL monitoring and maintenance
 - [Database Schema](database/schema.md) - Detailed database structure
+- [Installation Guide](docs/installation.md) - Complete setup instructions
+- [System Architecture](docs/systemPatterns.md) - Technical architecture details
 
 ## Key Features
 
@@ -102,12 +109,14 @@ Before setting up this system, you'll need:
 ## Resources
 
 ### n8n Resources
+
 - [n8n Documentation](https://n8n.io/docs/)
 - [n8n Node Reference](https://github.com/n8n-io/n8n/tree/master/packages/nodes-base)
 - [n8n Integrations](https://n8n.io/integrations/)
 - [Context7 n8n Resources](https://context7.com/?q=n8n)
 
 ### NocoDB Resources
+
 - [NocoDB Documentation](https://docs.nocodb.com/)
 - [NocoDB GitHub](https://github.com/nocodb/nocodb)
 
@@ -129,15 +138,17 @@ awesome/
 
 ## Contributing
 
-This is the data management system for the [Awesome Production](https://github.com/Capp3/awesome-production) list. 
+This is the data management system for the [Awesome Production](https://github.com/Capp3/awesome-production) list.
 
 **For Awesome List Updates:**
+
 - All updates to the Awesome Production list should be made through this system
 - Use the new entry workflow for adding vendors
 - The system will automatically create pull requests to the main repository
 - Do not make direct changes to the main awesome-production repository
 
 **For System Development:**
+
 - This repository contains the n8n workflows and database management system
 - For questions or issues with the data management system, please refer to the individual workflow documentation or contact the project maintainer
 
