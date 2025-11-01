@@ -22,6 +22,12 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
 
+# Exclude archived documentation and optimization journey docs
+exclude_docs: |
+  archive/
+  creativePhaseImportWorkflow.md
+  creativePhaseNewEntryWorkflow.md
+
 nav:
   - Home: index.md
   - Getting Started:
@@ -35,33 +41,8 @@ nav:
       - System Patterns: systemPatterns.md
       - Product Context: productContext.md
       - Implementation Plan: implementationPlan.md
-  - Workflows:
-      - Import Workflow: import-workflow-implementation.md
-      - New Entry Workflow: 02-new-entry-workflow.md
-      - Health Check Workflow: 03-health-check-workflow.md
-      - Workflow Diagrams: import-workflow-diagram.md
-  - Database:
-      - Schema: schema.md
-      - Setup Guide: setup-guide.md
   - Development:
       - Active Context: activeContext.md
       - Progress Tracking: progress.md
       - Task Management: tasks.md
-      - Documentation Review: documentation-review-checklist.md
-      - Implementation Summary: IMPLEMENTATION_SUMMARY.md
-  - Optimization Journey:
-      - Introduction: 00-introduction.md
-      - Efficiency and Clarity: 01-efficiency-and-clarity.md
-      - System Self-Assessment: 02-system-self-assessment.md
-      - Redundancy Elimination: 03-redundancy-elimination.md
-      - Single Source of Truth: 04-single-source-of-truth.md
-      - Adaptive Complexity Model: 05-adaptive-complexity-model.md
-      - Self-Assessment Recommendations: 06-self-assessment-recommendations.md
-      - Structured Creative Thinking: 07-structured-creative-thinking.md
-      - Creative Phase Enforcement: 08-creative-phase-enforcement.md
-      - Context Optimization: 09-context-optimization.md
-      - Current System State: 10-current-system-state.md
-      - Key Lessons: 11-key-lessons.md
-      - Methodological Integration: 11-methodological-integration.md
-      - Future Directions: 12-future-directions.md
-      - Methodological Integration: 13-methodological-integration.md
+      - Focused Scope: focusedScope.md
