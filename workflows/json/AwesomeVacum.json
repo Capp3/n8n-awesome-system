@@ -2,41 +2,14 @@
   "name": "AwesomeVacum",
   "nodes": [
     {
-      "parameters": {
-        "operation": "extractHtmlContent",
-        "dataPropertyName": "",
-        "extractionValues": {
-          "values": [
-            {
-              "key": "vendor_name",
-              "cssSelector": "ul li a",
-              "returnArray": true
-            }
-          ]
-        },
-        "options": {
-          "trimValues": true,
-          "cleanUpText": true
-        }
-      },
-      "type": "n8n-nodes-base.html",
-      "typeVersion": 1.2,
-      "position": [
-        1328,
-        0
-      ],
-      "id": "d600dafa-d14f-4062-abe1-ffff5acc9caf",
-      "name": "HTML1"
-    },
-    {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        -544,
+        -320
       ],
-      "id": "cc3da5dd-b106-4e58-b176-d35393de7517",
+      "id": "36cc487e-fe21-4c31-999b-f8e087febb12",
       "name": "Hoover"
     },
     {
@@ -45,28 +18,26 @@
         "operation": "get",
         "owner": {
           "__rl": true,
-          "value": "Capp3",
-          "mode": "list",
-          "cachedResultName": "Capp3",
-          "cachedResultUrl": "https://github.com/Capp3"
+          "mode": "name",
+          "value": "={{ $json.github_user }}"
         },
         "repository": {
           "__rl": true,
-          "value": "awesome-production",
-          "mode": "list",
-          "cachedResultName": "awesome-production",
-          "cachedResultUrl": "https://github.com/Capp3/awesome-production"
+          "mode": "name",
+          "value": "={{ $json.github_repo }}"
         },
         "filePath": "readme.md",
-        "additionalParameters": {}
+        "additionalParameters": {
+          "reference": "update"
+        }
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
       "position": [
-        224,
-        0
+        -96,
+        -320
       ],
-      "id": "beede221-3c11-409e-af0d-be0cb1644747",
+      "id": "945c2c62-0f78-4f8f-afd4-710b4e761f05",
       "name": "Get Awesome List",
       "webhookId": "60e7e467-c996-420e-b301-38544ea934f5",
       "credentials": {
@@ -84,10 +55,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        448,
-        0
+        128,
+        -320
       ],
-      "id": "bda25d3e-3270-4343-8d85-c948ec2a1e1a",
+      "id": "8e833e7c-c992-4045-961d-334b2678bd88",
       "name": "Extract Markdown"
     },
     {
@@ -100,56 +71,202 @@
       "type": "n8n-nodes-base.markdown",
       "typeVersion": 1,
       "position": [
-        672,
-        0
+        352,
+        -320
       ],
-      "id": "337eba7a-6e08-42d4-b200-ebcb5df22a33",
+      "id": "c1cca4a5-ebc0-4751-8241-21909aede1d5",
       "name": "Convert to HTML"
     },
     {
       "parameters": {
-        "operation": "extractHtmlContent",
-        "dataPropertyName": "content",
-        "extractionValues": {
-          "values": [
-            {
-              "key": "=main_categories",
-              "cssSelector": "h3",
-              "returnArray": true
-            },
-            {
-              "key": "sub_categories",
-              "cssSelector": "h4",
-              "returnArray": true
-            }
-          ]
-        },
-        "options": {
-          "trimValues": true,
-          "cleanUpText": true
-        }
+        "content": "**Github Info**",
+        "height": 272,
+        "width": 192
       },
-      "type": "n8n-nodes-base.html",
-      "typeVersion": 1.2,
+      "type": "n8n-nodes-base.stickyNote",
       "position": [
-        896,
-        0
+        -368,
+        -432
       ],
-      "id": "c431c1cd-41bf-4a35-bb14-6a2ca8d092cc",
-      "name": "Extract Headings"
+      "typeVersion": 1,
+      "id": "fc83286f-5179-47c1-9f34-b9d0abeaa8b8",
+      "name": "Sticky Note"
     },
     {
       "parameters": {
-        "jsCode": "// Build hierarchical category structure\nconst mainCategories = $input.first().json.main_categories || [];\nconst subCategories = $input.first().json.sub_categories || [];\n\n// Parse the original HTML to understand the structure\nconst htmlContent = $('Convert to HTML').first().json.content;\nconst lines = htmlContent.split('\\n');\n\nconst categoryMap = {};\nlet currentMainCategory = null;\n\nfor (const line of lines) {\n  // Check for main category (h3)\n  const h3Match = line.match(/<h3[^>]*>(.*?)<\\/h3>/);\n  if (h3Match) {\n    currentMainCategory = h3Match[1].replace(/<[^>]*>/g, '').trim();\n    categoryMap[currentMainCategory] = [];\n  }\n\n  // Check for subcategory (h4) and associate with current main category\n  const h4Match = line.match(/<h4[^>]*>(.*?)<\\/h4>/);\n  if (h4Match && currentMainCategory) {\n    const subCategory = h4Match[1].replace(/<[^>]*>/g, '').trim();\n    categoryMap[currentMainCategory].push(subCategory);\n  }\n}\n\n// Convert to array format for easier processing\nconst categoryHierarchy = Object.entries(categoryMap).map(([main, subs]) => ({\n  main_category: main,\n  sub_categories: subs\n}));\n\nreturn categoryHierarchy.map(item => ({ json: item }));"
+        "assignments": {
+          "assignments": [
+            {
+              "id": "03591f59-0500-4342-ae95-2a32d61b84fa",
+              "name": "github_user",
+              "value": "Capp3",
+              "type": "string"
+            },
+            {
+              "id": "2e53bed9-7931-448d-a112-ed1822b14742",
+              "name": "github_repo",
+              "value": "awesome-production",
+              "type": "string"
+            },
+            {
+              "id": "c41f352f-80af-41d7-b9a0-d2fb64102031",
+              "name": "airtable_table_url",
+              "value": "https://airtable.com/appySl3TzTMi6RRRQ/tblj4UCkNQEY4OnWa/viwhBXuZWqMacHGSi",
+              "type": "string"
+            },
+            {
+              "id": "2eb5a0ca-9fdb-46c1-b9f0-94ec7ce596b9",
+              "name": "airtable_base_url",
+              "value": "https://airtable.com/appySl3TzTMi6RRRQ",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -320,
+        -320
+      ],
+      "id": "754ce38e-a1e8-4ef1-a0ba-a3a41f4344fd",
+      "name": "Asset Info"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "import re\nfrom bs4 import BeautifulSoup\nfrom datetime import datetime\n\n# Get HTML content from previous node\ninput_items = _input.all()\nhtml_content = input_items[0]['json']['content']\n\n# Parse HTML\nsoup = BeautifulSoup(html_content, 'html.parser')\n\nvendors = []\ncurrent_main_category = None\ncurrent_subcategory = None\n\n# Process each element in the HTML\nfor element in soup.find_all(['h3', 'h4', 'li']):\n    if element.name == 'h3':\n        # Main category\n        current_main_category = element.get_text().strip()\n        current_subcategory = None\n    \n    elif element.name == 'h4':\n        # Subcategory\n        current_subcategory = element.get_text().strip()\n    \n    elif element.name == 'li' and element.find('a'):\n        # Vendor entry\n        link = element.find('a')\n        vendor_name = link.get_text().strip()\n        vendor_url = link.get('href', '')\n        \n        # Skip table of contents entries (markdown anchors start with #)\n        if vendor_url.startswith('#'):\n            continue\n        \n        # Skip entries without valid URLs (must contain http:// or https://)\n        if not vendor_url or not (vendor_url.startswith('http://') or vendor_url.startswith('https://')):\n            continue\n        \n        # Extract description (text after the link)\n        description = element.get_text().strip()\n        if '–' in description:\n            description = description.split('–', 1)[1].strip()\n        else:\n            description = ''\n        \n        # Clean up vendor name (remove brackets if present)\n        if '[' in vendor_name and ']' in vendor_name:\n            vendor_name = vendor_name.split('[')[1].split(']')[0].strip()\n        \n        # Create vendor record\n        vendor = {\n            'vendor_name': vendor_name,\n            'url': vendor_url,\n            'description': description,\n            'category': current_main_category or 'Uncategorized',\n            'subcategory': current_subcategory or 'General',\n            'status': 'active',\n            'date_added': datetime.now().isoformat(),\n            'created_by': 'import'\n        }\n        \n        vendors.append(vendor)\n\n# Return all vendors as separate items for n8n\nreturn [{'json': vendor} for vendor in vendors]"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1120,
-        0
+        576,
+        -320
       ],
-      "id": "dd6b97d5-4a4e-4c96-a04c-3164ce7ab047",
-      "name": "Create Heading Relationships"
+      "id": "d3f1e096-f820-461a-bd22-c4a79baf7c83",
+      "name": "Create Entries",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "projectId": "pxtd3z9ygd9zprn",
+        "table": "md5mzz6b4mvjs1p",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "vendor_name",
+              "fieldValue": "={{ $json.vendor_name }}"
+            },
+            {
+              "fieldName": "=url",
+              "fieldValue": "={{ $json.url }}"
+            },
+            {
+              "fieldName": "description",
+              "fieldValue": "={{ $json.description }}"
+            },
+            {
+              "fieldName": "category",
+              "fieldValue": "={{ $json.category }}"
+            },
+            {
+              "fieldName": "subcategory",
+              "fieldValue": "={{ $json.subcategory }}"
+            },
+            {
+              "fieldName": "status",
+              "fieldValue": "={{ $json.status }}"
+            },
+            {
+              "fieldName": "date_added",
+              "fieldValue": "={{ $json.date_added }}"
+            },
+            {
+              "fieldName": "creation_by",
+              "fieldValue": "={{ $json.created_by }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1504,
+        -512
+      ],
+      "id": "fd3831a6-59e6-43d3-84b6-516ecdacd31a",
+      "name": "Create a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "UqhWT7R7AOzOR2rH",
+          "name": "NocoDB Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5ee44545-6465-42c8-a25d-9653e0f5a8c9",
+              "leftValue": "={{ $json.url }}",
+              "rightValue": "={{ $('Create Entries').item.json.url }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1056,
+        -320
+      ],
+      "id": "af4f584c-6473-4bb9-b6ad-3e57d69c159a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "projectId": "pxtd3z9ygd9zprn",
+        "table": "md5mzz6b4mvjs1p",
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        816,
+        -320
+      ],
+      "id": "b8151076-c93a-4e8d-a914-72cbf5504a56",
+      "name": "Get many rows",
+      "executeOnce": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "UqhWT7R7AOzOR2rH",
+          "name": "NocoDB Token account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -158,7 +275,7 @@
       "main": [
         [
           {
-            "node": "Get Awesome List",
+            "node": "Asset Info",
             "type": "main",
             "index": 0
           }
@@ -191,29 +308,51 @@
       "main": [
         [
           {
-            "node": "Extract Headings",
+            "node": "Create Entries",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Extract Headings": {
+    "Asset Info": {
       "main": [
         [
           {
-            "node": "Create Heading Relationships",
+            "node": "Get Awesome List",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Create Heading Relationships": {
+    "Create Entries": {
       "main": [
         [
           {
-            "node": "HTML1",
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -225,11 +364,18 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "9679cccc-6598-48fe-a253-3b173a88488a",
+  "versionId": "412cb4f5-19c0-47a4-b2eb-7d784f8ab6bd",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "1c23fdf105aaacd4635cc3179c8ec8a79b1339d581cd2a8e15367d996124a9e3"
   },
   "id": "qsd8PMJ94trsDwc6",
-  "tags": []
+  "tags": [
+    {
+      "updatedAt": "2025-09-25T14:58:39.763Z",
+      "createdAt": "2025-09-25T14:58:39.763Z",
+      "id": "lzpPQmzNf8eVoBaI",
+      "name": "Awesome"
+    }
+  ]
 }

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "n8n-awesome-system"
+version = "0.1.0"
+description = "Awesome Production Data Management System"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "mkdocs==1.6.1",
+    "mkdocs-material==9.6.20",
+    "pymdown-extensions==10.16.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Add development dependencies here if needed
+]
+
+[tool.uv]
+dev-dependencies = [
+    # Add UV-specific dev dependencies here if needed
+]
+
+[tool.mkdocs]
+site_name = "N8N Awesome System Documentation"
+site_description = "Documentation for the Awesome Production Data Management System"
+site_url = "https://your-domain.com"
+repo_url = "https://github.com/your-username/n8n-awesome-system"
+repo_name = "n8n-awesome-system"
